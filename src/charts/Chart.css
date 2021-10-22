@@ -1,0 +1,12 @@
+.tooltip {
+    border-radius: 0.25rem;
+    background: #26313c;
+    color: #fff;
+    padding: 1rem;
+    box-shadow: 15px 20px 20px 5px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    text-size-adjust: auto;
+    overflow-wrap: break-word;
+    font-size: x-small;
+    line-height: 0.5em;
+  }

@@ -1,6 +1,56 @@
+# Run Locally
+1. Install npm https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+2. Install dependencies
+Open teminal of choice -> Navigate to the project root 
+```
+npm install
+```
+3. Start server
+```
+npm start
+```
+This should open the React app (page) in a browser
+http://localhost:3000/
+
+
+## Null response from Flask with 'no-cors' and error with cors
+https://stackoverflow.com/questions/51338248/fetch-request-to-flask-backend-response-body-is-null-with-no-cors-and-fails-with
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## For dashboard using mui template
+npm install @mui/icons-material @mui/material @emotion/react recharts @mui/x-data-grid @material-ui/core
+
+### supercluster or google-map-react? 
+npm install supercluster    
+
+### Read data from google sheets - not working
+https://dev.to/calvinpak/how-to-read-write-google-sheets-with-react-193l
+npm install tabletop
+https://w3collective.com/react-google-sheets/
+
+https://medium.com/vowel-magic/how-to-fetch-data-from-google-sheets-with-react-and-tabletop-js-
+
+https://robocorp.com/docs/development-guide/google-sheets/interacting-with-google-sheets
+
+### Googlesheets as db - couldn't make this work
+npm install react-db-google-sheets
+https://itnext.io/using-google-sheets-as-a-database-for-react-apps-6c15b4481680
+
+### xlsx download google sheet as xlsx and read (not working)
+npm install xlsx
+
+### Long Lat from Address
+npm i react-geocode
+https://www.npmjs.com/package/react-geocode
+
+### HERE api
+https://developer.here.com/documentation/geocoding-search-api/api-reference-swagger.html
+
+
+
 
 ## Available Scripts
 
