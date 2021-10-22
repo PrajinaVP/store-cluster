@@ -17,7 +17,7 @@ import ScatterChart from './charts/ScatterChart';
 import Highlights from './Highlights';
 import Stores from './Stores';
 
-import StoreClusterMapBox from './mapbox-clustering/StoreClusterMapbox';
+import StoreClusterMapbox from './mapbox-clustering/StoreClusterMapbox';
 import MarkerMapLocator from './mapbox-clustering/MarkerMapLocator';
 import MarkerMapLocator_radius from './mapbox-clustering/MarkerMapLocator_radius'
 import GoogleApiWrapper from './mapbox-clustering/GoogleMapSMarkerMap'
