@@ -17,6 +17,7 @@ import ScatterChart from './charts/ScatterChart';
 import Highlights from './Highlights';
 import Stores from './Stores';
 
+import StoreClusterMapBox from './mapbox-clustering/StoreClusterMapbox';
 import MarkerMapLocator from './mapbox-clustering/MarkerMapLocator';
 import MarkerMapLocator_radius from './mapbox-clustering/MarkerMapLocator_radius'
 import GoogleApiWrapper from './mapbox-clustering/GoogleMapSMarkerMap'
@@ -215,7 +216,7 @@ function DashboardContent() {
 
 
               {/* TODO Uncomment below. */}
-               {/* <Grid item xs={3} md={3} lg={5}>
+               <Grid item xs={3} md={3} lg={5}>
                 <Paper
                   sx={{
                     p: 2,
@@ -226,7 +227,7 @@ function DashboardContent() {
                 >
                   <StoreClusterMapbox />
                 </Paper>
-              </Grid> */}
+              </Grid>
 
               
               <Grid item xs={6} md={6} lg={7}>
