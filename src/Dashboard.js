@@ -19,6 +19,7 @@ import Stores from './Stores';
 
 import StoreClusterMapbox from './mapbox-clustering/StoreClusterMapbox';
 import MarkerMapLocator from './mapbox-clustering/MarkerMapLocator';
+import ReactMap from './mapbox-clustering/ReactMap';
 import MarkerMapLocator_radius from './mapbox-clustering/MarkerMapLocator_radius'
 import GoogleApiWrapper from './mapbox-clustering/GoogleMapSMarkerMap'
 import CustomGoogleMap from './components/CustomGoogleMap';
@@ -200,8 +201,8 @@ function DashboardContent() {
                 </Paper>
               </Grid>
                {/* Map */}
-              {/* google-map-react anf google-maps-react not working well together. map does not load, only markers */}
-              {/* <Grid item xs={6} md={6} lg={8}>
+              {/* google-map-react and google-maps-react not working well together. map does not load, only markers */}
+              {/* <Grid item xs={3} md={3} lg={5}>
                 <Paper
                   sx={{
                     p: 2,
@@ -222,10 +223,10 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '50vh'
+                    height: '70vh'
                   }}
                 >
-                  <StoreClusterMapbox />
+                  {/* <StoreClusterMapbox /> */}
                 </Paper>
               </Grid>
 
@@ -236,14 +237,15 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '50vh'
+                    height: '70vh'
                   }}
                 >
-                  <MarkerMapLocator />
+                  <ReactMap />
+                  {/* <MarkerMapLocator /> */}
                 </Paper>
               </Grid>
 
-              <Grid item xs={6} md={6} lg={7}>
+              {/* <Grid item xs={6} md={6} lg={7}>
                 <Paper
                   sx={{
                     p: 2,
@@ -254,7 +256,7 @@ function DashboardContent() {
                 >
                   <MarkerMapLocator_radius />
                 </Paper>
-              </Grid>
+              </Grid> */}
               {/* Stores*/}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>

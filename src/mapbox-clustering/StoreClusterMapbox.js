@@ -110,61 +110,61 @@ export default function StoreClusterMapBox() {
                     }}
                     
                 >
-                    {clusters.map(cluster => {
-                        const [longitude, latitude] = cluster.geometry.coordinates;
-                        const {
-                            cluster: isCluster, 
-                            point_count: pointCount
-                        } = cluster.properties;
+                        {clusters.map(cluster => {
+                            const [longitude, latitude] = cluster.geometry.coordinates;
+                            const {
+                                cluster: isCluster, 
+                                point_count: pointCount
+                            } = cluster.properties;
 
-                        if (isCluster) {
+                            if (isCluster) {
+                                return (
+                                    <Marker key={cluster.id} lat={latitude} lng={longitude}>
+                                        <div 
+                                            className="cluster-marker"
+                                            style={{
+                                                width: `${10 * (pointCount / points.length) * 5}px`,
+                                                height: `${10 * (pointCount / points.length) * 5}px`,
+                                            }}
+                                            onClick={() => {
+                                                const expansionZoom = Math.min(
+                                                    supercluster.getClusterExpansionZoom(cluster.id),
+                                                    20
+                                                );
+                                                mapRef.current.setZoom(expansionZoom);
+                                                mapRef.current.panTo({ lat: latitude, lng: longitude});
+                                            }}
+                                        >
+                                            {pointCount}
+                                        </div>
+                                    </Marker>
+                                );
+                            }
+
                             return (
-                                <Marker key={cluster.id} lat={latitude} lng={longitude}>
-                                    <div 
-                                        className="cluster-marker"
-                                        style={{
-                                            width: `${10 * (pointCount / points.length) * 5}px`,
-                                            height: `${10 * (pointCount / points.length) * 5}px`,
-                                        }}
-                                        onClick={() => {
-                                            const expansionZoom = Math.min(
-                                                supercluster.getClusterExpansionZoom(cluster.id),
-                                                20
-                                            );
-                                            mapRef.current.setZoom(expansionZoom);
-                                            mapRef.current.panTo({ lat: latitude, lng: longitude});
-                                        }}
-                                    >
-                                        {pointCount}
-                                    </div>
-                                </Marker>
-                            );
-                        }
-
-                        return (
-                            <Marker
-                                key={cluster.properties.storeId}
-                                //title={cluster.properties.crimeId}
-                                lat={latitude}
-                                lng={longitude}
-                            >        
-                               {/* // TODO COnvert to poop un and display only on click                         */}
-                                <AnyReactComponent
+                                <Marker
+                                    key={cluster.properties.storeId}
+                                    //title={cluster.properties.crimeId}
                                     lat={latitude}
                                     lng={longitude}
-                                    text="My Marker"
-                                />
-                                <button className='map-marker'
-                                    // onClick={e => {
-                                    //     e.preventDefault();
-                                    //     setSelectedCluster(cluster)
-                                    // }}
-                                    >
-                                    <img src="/store.svg" alt="store" />
-                                </button>
-                            </Marker>
-                            )
-                        })}
+                                >        
+                                {/* // TODO COnvert to poop un and display only on click                         */}
+                                    <AnyReactComponent
+                                        lat={latitude}
+                                        lng={longitude}
+                                        text="My Marker"
+                                    />
+                                    <button className='map-marker'
+                                        // onClick={e => {
+                                        //     e.preventDefault();
+                                        //     setSelectedCluster(cluster)
+                                        // }}
+                                        >
+                                        <img src="/store.svg" alt="store" />
+                                    </button>
+                                </Marker>
+                                )
+                            })}
 
                         {/* {selectedCluster ? (
                         <AnyReactComponent

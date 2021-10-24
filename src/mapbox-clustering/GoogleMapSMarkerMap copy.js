@@ -9,6 +9,7 @@ import { storesClusterByKmeans } from '../data/StoresClusterByKmeans';
 //google-maps-react mainly focuses on drawing geometric shapes like marker, infowindow, polyline, polygon or circle. They also offer lazy loading for the maps. 
 //google-map-react renders a map where you can put a customized react component in any co-ordinate. Both libraries can be used to implement API services like autocomplete or direction-services. 
 
+const fetcher = (...args) => fetch(...args).then(response => response.json());
 // TODO move to .css
 const mapStyles = {
   width: "100%",
