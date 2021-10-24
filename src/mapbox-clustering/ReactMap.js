@@ -30,6 +30,7 @@ import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { storesClusterByKmeans } from '../data/StoresClusterByKmeans';
 
+import Geocode from "react-geocode";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -44,6 +45,10 @@ const options = {
 
 let circle;
 export default function ReactMap() {
+
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_JS_MAP_API_KEY); 
+  Geocode.enableDebug();
+  
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_JS_MAP_API_KEY,
     libraries,
@@ -60,9 +65,9 @@ const [storeList, setStoreList] = useState(storesClusterByKmeans);
 
 // TODO Get zipcodes from api
 const zipList = storesClusterByKmeans.map((option) => {
-if (option.PostalCode) {
-    return option.PostalCode.split("-")[0];
-}
+  if (option.PostalCode) {
+      return option.PostalCode.split("-")[0];
+  }
 });
 
 const handleChange = (event, values) => {
@@ -89,17 +94,6 @@ const findByZipcodeRadius = (event) => {
       error = "Zipcode id required!"
     }
   };
-
-// const onMapClick = React.useCallback((e) => {
-// setMarkers((current) => [
-//     ...current,
-//     {
-//     lat: e.latLng.lat(),
-//     lng: e.latLng.lng(),
-//     time: new Date(),
-//     },
-// ]);
-// }, []);
 
 const mapRef = useRef();
 const onMapLoad = React.useCallback((map) => {
@@ -157,6 +151,12 @@ const makeAPICall = async (url) => {
       //throw new Error("Zipcode is required!");
     }
     makeAPICall(`http://127.0.0.1:5000/api/v1/storesclustersbykmeansbylistzips?zipcode=${zipcode}&radius=${radius}`);
+    Geocode.fromAddress(zipcode).then(
+      response => {
+        // setCenter({ lat: 33.614269, lng: -85.834969 });
+        setCenter(response.results[0].geometry.location);
+      }
+    );
 
   }, [zipcode, radius]);
 

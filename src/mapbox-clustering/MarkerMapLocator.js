@@ -81,7 +81,7 @@ export default function MarkerMapLocator() {
         })
         .then(res => res.json())
         .then(data => {
-          console.log("data :: " + JSON.stringify(data));
+         // console.log("data :: " + JSON.stringify(data));
           setStoreList(data.data[zipcode]);// TODO Change python res
         })
         .catch(error => {

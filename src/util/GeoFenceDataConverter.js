@@ -1,7 +1,7 @@
 import Geocode from "react-geocode";
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
-Geocode.setApiKey("AIzaSyAWkeZsjYtPLw06giRHxf1h_TtJRYCqgFc"); //prajinavp1@gmail.com
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_JS_MAP_API_KEY); //prajinavp1@gmail.com
 
 // set response language. Defaults to english.
 Geocode.setLanguage("en");
@@ -87,9 +87,16 @@ export function getStoreGeoCode(stores) {
           geometry: response.results[0].geometry
         }
         const { lat, lng } = response.results[0].geometry.location;
-        console.log("result :: " + response.results[0].geometry.location);
-        console.log("stores :: " + store);
-        console.log(lat, lng);
+        const zipcode = response.results[0].address_components[6].short_name;
+        // console.log("result :: " + JSON.stringify(response.results[0].geometry.location));
+        // console.log("stores :: " + store);
+        // console.log(lat, lng);
+
+        console.log("zipList :: " + {
+          zipcode,
+          lat,
+          lng
+        });
       },
       (error) => {
         console.error(error);
@@ -97,3 +104,16 @@ export function getStoreGeoCode(stores) {
     );
   });
 }
+
+// Get latitude & longitude from address.
+export default function geocode(address) {
+  Geocode.fromAddress(address).then(
+    (response) => {
+      console.log(response.results[0].geometry.location);
+      return response.results[0].geometry.location;
+    },
+    (error) => {
+      console.error(error);
+    }
+  )
+};
