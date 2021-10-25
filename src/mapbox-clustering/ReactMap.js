@@ -129,7 +129,8 @@ const makeAPICall = async (url) => {
       .then(res => res.json())
       .then(data => {
         console.log("data :: " + JSON.stringify(data));
-        setStoreList(data.data[zipcode]);// TODO Change python res
+        setStoreList(data[zipcode]);// TODO Change python res
+        setCenter({ lat: data.center[0], lng: data.center[1]})  
       })
       .catch(error => {
         console.log(error);

@@ -226,7 +226,7 @@ function DashboardContent() {
                     height: '70vh'
                   }}
                 >
-                  {/* <StoreClusterMapbox /> */}
+                  <StoreClusterMapbox />
                 </Paper>
               </Grid>
 
