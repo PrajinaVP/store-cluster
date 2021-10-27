@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useSwr from "swr";
 import GoogleMapReact from "google-map-react";
 import useSupercluster from "use-supercluster";
@@ -81,8 +81,7 @@ export default function StoreClusterMapBox() {
     // Marker Info
     const { selectedCluster, setSelectedCluster} = useState(null);
 
-    const AnyReactComponent = ({text}) => <div>{text}</div>;
-
+  const AnyReactComponent = ({text}) => <div>{text}</div>;
   
     // return map
     const center = { lat: 33.6, lng: -85.9 };
@@ -90,6 +89,8 @@ export default function StoreClusterMapBox() {
         <React.Fragment>
             <Title>Cluster by Zipcode</Title>
             <div style={{ height: "100%", width: "100%"}}> 
+                <div style={{ height: "10%", width: "100%"}}> 
+                </div>
                 <div style={{ height: "80%", width: "100%"}}> 
                 <GoogleMapReact 
                     bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLE_JS_MAP_API_KEY}}
@@ -149,11 +150,11 @@ export default function StoreClusterMapBox() {
                                     lng={longitude}
                                 >        
                                 {/* // TODO COnvert to poop un and display only on click                         */}
-                                    <AnyReactComponent
+                                    {/* <AnyReactComponent
                                         lat={latitude}
                                         lng={longitude}
                                         text="My Marker"
-                                    />
+                                    /> */}
                                     <button className='map-marker'
                                         // onClick={e => {
                                         //     e.preventDefault();

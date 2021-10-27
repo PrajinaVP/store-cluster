@@ -35,7 +35,9 @@ export const geocode = ((address) => {
 }, {});
 
   export const getHighlights = (array) => {
-    return findMinMax(array);
+    if (array) {
+      return findMinMax(array);
+    }
   }
 
   // Finding all here to reduce iteration
@@ -47,12 +49,24 @@ export const geocode = ((address) => {
 
     let minOpEfficiencyIndex;
     let maxOpEfficiencyIndex;
-    let minOpEfficiency = arr[0].OperatingEfficiency;
-    let maxOpEfficiency = arr[0].OperatingEfficiency;
+    let minOpEfficiency = arr[0].operatingEfficiency;
+    let maxOpEfficiency = arr[0].operatingEfficiency;
     
+    let minCostOfGoodsSoldIndex;
+    let maxCostOfGoodsSoldIndex;
+    let minCostOfGoodsSold = arr[0].CostOfGoodsSold;
+    let maxCostOfGoodsSold = arr[0].CostOfGoodsSold;
+
+    let minOperatingExpensesIndex;
+    let maxOperatingExpensesIndex;
+    let minOperatingExpenses = arr[0].OperatingExpenses;
+    let maxOperatingExpenses  = arr[0].OperatingExpenses;
+
     for (let i = 1, len=arr.length; i < len; i++) {
       let annualSales = arr[i].AnnualSales;
       let opEfficiency = arr[i].OperatingEfficiency;
+      let operatingExpenses = arr[i].OperatingExpenses;
+      let costOfGoodsSold = arr[i].CostOfGoodsSold;
 
       if (annualSales < minAnnualSales)  {
         minAnnualSales = annualSales;
@@ -73,14 +87,105 @@ export const geocode = ((address) => {
         maxOpEfficiency = opEfficiency;
         maxOpEfficiencyIndex = i;
       };
+
+      if (operatingExpenses < minOperatingExpenses)  {
+        minOperatingExpenses = opEfficiency;
+        minOperatingExpensesIndex = i;
+      };
+
+      if (operatingExpenses < maxOperatingExpenses)  {
+        maxOperatingExpenses = operatingExpenses;
+        maxOperatingExpensesIndex = i;
+      };
+
+      if (costOfGoodsSold < minCostOfGoodsSold)  {
+        minCostOfGoodsSold = costOfGoodsSold;
+        minCostOfGoodsSoldIndex = i;
+      };
+
+      if (costOfGoodsSold < maxCostOfGoodsSold)  {
+        maxCostOfGoodsSold = costOfGoodsSold;
+        maxCostOfGoodsSoldIndex = i;
+      };
+      
     }
   
-    return { 
-      minAnnualSalesStore: arr[minAnnualSalesIndex],
-      maxAnnualSalesStore: arr[maxAnnualSalesIndex],
-      minOpEfficiencyStore: arr[minOpEfficiencyIndex],
-      maxOpEfficiencyStore: arr[maxOpEfficiencyIndex]
-    };
+    const minMax = [
+      { 
+        storeId: arr[minAnnualSalesIndex].id,
+        storeRegionId: arr[minAnnualSalesIndex].StoreRegionID,
+        StoreDepartmentId: arr[minAnnualSalesIndex].StoreDistrictID,
+        StoreGroupID: arr[minAnnualSalesIndex].StoreGroupID,
+        dollar: arr[minAnnualSalesIndex].AnnualSales
+      },
+      { 
+        storeId: arr[maxAnnualSalesIndex].id,
+        StoreRegionID: arr[maxAnnualSalesIndex].StoreRegionID,
+        StoreDepartmentId: arr[maxAnnualSalesIndex].StoreDistrictID,
+        StoreGroupID: arr[maxAnnualSalesIndex].StoreGroupID,
+        dollar: arr[maxAnnualSalesIndex].AnnualSales
+      },
+
+      // { 
+      //   storeId: arr[minOpEfficiencyIndex].id,
+      //   StoreRegionID: arr[minOpEfficiencyIndex].StoreRegionID,
+      //   StoreDistrictID: arr[minOpEfficiencyIndex].StoreDistrictID,
+      //   StoreGroupID: arr[minOpEfficiencyIndex].StoreGroupID,
+      //   dollar: arr[minOpEfficiencyIndex].operatingEfficiency
+      // },
+
+      // { 
+      //   storeId: arr[maxOpEfficiencyIndex].id,
+      //   StoreRegionID: arr[maxOpEfficiencyIndex].StoreRegionID,
+      //   StoreDistrictID: arr[maxOpEfficiencyIndex].StoreDistrictID,
+      //   StoreGroupID: arr[maxOpEfficiencyIndex].StoreGroupID,
+      //   dollar: arr[maxOpEfficiencyIndex].operatingEfficiency
+      // },
+
+      { 
+        storeId: arr[minCostOfGoodsSoldIndex].id,
+        StoreRegionID: arr[minCostOfGoodsSoldIndex].StoreRegionID,
+        StoreDistrictID: arr[minCostOfGoodsSoldIndex].StoreDistrictID,
+        StoreGroupID: arr[minCostOfGoodsSoldIndex].StoreGroupID,
+        dollar: arr[minCostOfGoodsSoldIndex].CostOfGoodsSold
+      },
+
+      { 
+        storeId: arr[maxCostOfGoodsSoldIndex].id,
+        StoreRegionID: arr[maxCostOfGoodsSoldIndex].StoreRegionID,
+        StoreDistrictID: arr[maxCostOfGoodsSoldIndex].StoreDistrictID,
+        StoreGroupID: arr[maxCostOfGoodsSoldIndex].StoreGroupID,
+        dollar: arr[maxCostOfGoodsSoldIndex].CostOfGoodsSold
+      },
+
+      { 
+        storeId: arr[minOperatingExpensesIndex].id,
+        StoreRegionID: arr[minOperatingExpensesIndex].StoreRegionID,
+        StoreDistrictID: arr[minOperatingExpensesIndex].StoreDistrictID,
+        StoreGroupID: arr[minOperatingExpensesIndex].StoreGroupID,
+        dollar: arr[minOperatingExpensesIndex].OperatingExpenses
+      },
+
+      { 
+        storeId: arr[maxOperatingExpensesIndex].id,
+        StoreRegionID: arr[maxOperatingExpensesIndex].StoreRegionID,
+        StoreDepartmentId: arr[maxOperatingExpensesIndex].StoreDistrictID,
+        StoreGroupID: arr[maxOperatingExpensesIndex].StoreGroupID,
+        dollar: arr[maxOperatingExpensesIndex].OperatingExpenses
+      }
+
+
+      //minAnnualSalesStore: arr[minAnnualSalesIndex],
+      //maxAnnualSalesStore: arr[maxAnnualSalesIndex],
+      //minOpEfficiencyStore: arr[minOpEfficiencyIndex],
+      //maxOpEfficiencyStore: arr[maxOpEfficiencyIndex],
+      //minCostOfGoodsSoldStore: arr[minCostOfGoodsSoldIndex],
+      //maxCostOfGoodsSoldStore: arr[maxCostOfGoodsSoldIndex],
+      //minOperatingExpensesSoldStore: arr[minOperatingExpensesIndex],
+      //maxOperatingExpensesSoldStore: arr[maxOperatingExpensesIndex]
+    ];
+
+    return minMax;
   }
 
 const maxVal = (array) => {

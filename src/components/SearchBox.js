@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { storesClusterByKmeans } from '../data/StoresClusterByKmeans';
 
 //TODO Convert to component?
-export default function SearchBox(zipcode, handleChange, radius, handleRadiusChange, findByZipcodeRadius) {
+export default function SearchBox(props) {
     // TODO Get zipcodes from api
     const zipList = storesClusterByKmeans.map((option) => {
         if (option.PostalCode) {
@@ -21,7 +21,7 @@ export default function SearchBox(zipcode, handleChange, radius, handleRadiusCha
         <Autocomplete
           freeSolo
           id="free-solo-zipcode"
-          value={zipcode}
+          value={props.zipcode}
           disableClearable
           //options={storesClusterByKmeans}
           //options={storesClusterByKmeans.map((option) => option.PostalCode)}
@@ -30,7 +30,7 @@ export default function SearchBox(zipcode, handleChange, radius, handleRadiusCha
           // getOptionSelected={(option, value) => {
           //   return option.id === value.id
           // }}
-          onChange={handleChange}
+          onChange={props.handleChange}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -49,15 +49,15 @@ export default function SearchBox(zipcode, handleChange, radius, handleRadiusCha
           InputLabelProps={{
             shrink: true,
           }}
-          value={radius}
-          onChange={handleRadiusChange} />
+          value={props.radius}
+          onChange={props.handleRadiusChange} />
       </Grid>
       <Grid item xs={1}>
         <IconButton
           edge="start"
           color="inherit"
           aria-label="find stores"
-          onClick={findByZipcodeRadius}
+          onClick={props.findByZipcodeRadius}
         >
           <SearchIcon />
         </IconButton>
