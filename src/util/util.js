@@ -112,6 +112,7 @@ export const geocode = ((address) => {
   
     const minMax = [
       { 
+        label: 'Annual Sales (Min)',
         storeId: arr[minAnnualSalesIndex].id,
         storeRegionId: arr[minAnnualSalesIndex].StoreRegionID,
         StoreDepartmentId: arr[minAnnualSalesIndex].StoreDistrictID,
@@ -119,6 +120,7 @@ export const geocode = ((address) => {
         dollar: arr[minAnnualSalesIndex].AnnualSales
       },
       { 
+        label: 'Annual Sales (Max)',
         storeId: arr[maxAnnualSalesIndex].id,
         StoreRegionID: arr[maxAnnualSalesIndex].StoreRegionID,
         StoreDepartmentId: arr[maxAnnualSalesIndex].StoreDistrictID,
@@ -143,6 +145,7 @@ export const geocode = ((address) => {
       // },
 
       { 
+        label: 'Cost Of Goods Sold (Min)',
         storeId: arr[minCostOfGoodsSoldIndex].id,
         StoreRegionID: arr[minCostOfGoodsSoldIndex].StoreRegionID,
         StoreDistrictID: arr[minCostOfGoodsSoldIndex].StoreDistrictID,
@@ -151,6 +154,7 @@ export const geocode = ((address) => {
       },
 
       { 
+        label: 'Cost Of Goods Sold (Max)',
         storeId: arr[maxCostOfGoodsSoldIndex].id,
         StoreRegionID: arr[maxCostOfGoodsSoldIndex].StoreRegionID,
         StoreDistrictID: arr[maxCostOfGoodsSoldIndex].StoreDistrictID,
@@ -159,6 +163,7 @@ export const geocode = ((address) => {
       },
 
       { 
+        label: 'Operating Expenses (Min)',
         storeId: arr[minOperatingExpensesIndex].id,
         StoreRegionID: arr[minOperatingExpensesIndex].StoreRegionID,
         StoreDistrictID: arr[minOperatingExpensesIndex].StoreDistrictID,
@@ -167,6 +172,7 @@ export const geocode = ((address) => {
       },
 
       { 
+        label: 'Operating Expenses (Max)',
         storeId: arr[maxOperatingExpensesIndex].id,
         StoreRegionID: arr[maxOperatingExpensesIndex].StoreRegionID,
         StoreDepartmentId: arr[maxOperatingExpensesIndex].StoreDistrictID,

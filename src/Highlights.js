@@ -42,10 +42,11 @@ function getHighights(props) {
 }
 
 const columns = [
-  { id: 'id', label: 'Store Id'},
-  { id: 'storeRegionId', label: 'Region Id'},
-  { id: 'storeDepartmentId', label: 'Department Id'},
-  { id: 'storeGroupId', label: 'Group Id'},
+  { id: 'label'},
+  { id: 'storeId', label: 'Store', minWidth: '30'},
+  //{ id: 'storeRegionId', label: 'Region Id'},
+  //{ id: 'storeDepartmentId', label: 'Department Id'},
+ // { id: 'storeGroupId', label: 'Group Id'},
   { id: 'dollar', label: '$'},
 ];
 
@@ -53,25 +54,6 @@ function createData(name, code, population, size) {
   const density = population / size;
   return { name, code, population, size, density };
 }
-
-// const rows = [
-//   createData('India', 'IN', 1324171354, 3287263),
-//   createData('China', 'CN', 1403500365, 9596961),
-//   createData('Italy', 'IT', 60483973, 301340),
-//   createData('United States', 'US', 327167434, 9833520),
-//   createData('Canada', 'CA', 37602103, 9984670),
-//   createData('Australia', 'AU', 25475400, 7692024),
-//   createData('Germany', 'DE', 83019200, 357578),
-//   createData('Ireland', 'IE', 4857000, 70273),
-//   createData('Mexico', 'MX', 126577691, 1972550),
-//   createData('Japan', 'JP', 126317000, 377973),
-//   createData('France', 'FR', 67022000, 640679),
-//   createData('United Kingdom', 'GB', 67545757, 242495),
-//   createData('Russia', 'RU', 146793744, 17098246),
-//   createData('Nigeria', 'NG', 200962417, 923768),
-//   createData('Brazil', 'BR', 210147125, 8515767),
-// ];
-
 
 export default function Highlights(props) {
   // useEffect(() => {
@@ -86,52 +68,27 @@ export default function Highlights(props) {
   //const storeList = props ? props.data : storesClusterByKmeans;
   const storeList = storesClusterByKmeans;
 
-  const highlights = getHighlights(storeList);
-  console.log("highlights :: " + JSON.stringify(highlights));
-  
-  const rows = highlights;
-  
-  // const columns = [
-  //   {
-  //     field: 'minAnnualSalesStore',
-  //     headerName: 'Min Annual Sales',
-  //     headerClassName: 'super-app-theme--header',
-  //     headerAlign: 'center',
-  //   },
-  //   {
-  //     field: 'maxAnnualSalesStore',
-  //     headerName: 'Max Annual Sales',
-  //     headerClassName: 'super-app-theme--header',
-  //     headerAlign: 'center',
-  //   },
-  // ];
-
-  const data = {
-    rows: storesClusterByKmeans,
-    columns
-  } 
+  const rows = getHighlights(storeList);
+  console.log("highlights :: " + JSON.stringify(rows));
 
   return (
-    <React.Fragment>
-     {/* <Title>Highlights</Title> */}
-     <React.Fragment sx={{ width: '100%', height: '100%' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ width: '100%', height: '100%' }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            {/* <TableRow>
               <TableCell align="center" colSpan={2}>
                 Min
               </TableCell>
               <TableCell align="center" colSpan={2}>
                 Max
               </TableCell>
-            </TableRow>
+            </TableRow> */}
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
                 </TableCell>
@@ -158,58 +115,7 @@ export default function Highlights(props) {
               })}
           </TableBody>
         </Table>
-      </TableContainer>
-    </React.Fragment>
-
-    {/*  //   <Title>Annual Sales</Title>
-    //   <Typography component="p" variant="h4">
-    //     Store Id: {maxAnnualSalesStore.id}
-    //     Annual Sales: {maxAnnualSalesStore.AnnualSales}
-    //   </Typography>
-    //   <Typography color="text.secondary" sx={{ flex: 1 }}>
-    //     on 15 March, 2019
-    //   </Typography>
-    //   <div>
-    //     <Link color="primary" href="#" onClick={preventDefault}>
-    //       View balance
-    //     </Link>
-    //   </div>
-    // </React.Fragment> */}
-
-     
-        {/* <Card variant="outlined">
-          <CardHeader> Highlights </CardHeader>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Max Annual Sales
-            </Typography>
-          
-            <Typography variant="body2">
-              Store Id: {maxAnnualSalesStore.id} 
-              <br />
-              Region Id: {maxAnnualSalesStore.AnnualSales}
-              <br />
-              Annual Sales: {maxAnnualSalesStore.AnnualSales}
-            </Typography>
-     
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Min Annual Sales
-            </Typography>
-          
-            <Typography variant="body2">
-              Store Id: {minAnnualSalesStore.id} 
-              <br />
-              Region Id: {minAnnualSalesStore.AnnualSales}
-              <br />
-              Annual Sales: {minAnnualSalesStore.AnnualSales}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </Card>  */}
-        
-    </React.Fragment>
+      </TableContainer>  
   );
 }
 

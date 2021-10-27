@@ -327,7 +327,7 @@ const onMapLoad = React.useCallback((map) => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '40vh',
+                    height: '50vh',
                   }}
                 >
                   <Highlights data={storeList} />
