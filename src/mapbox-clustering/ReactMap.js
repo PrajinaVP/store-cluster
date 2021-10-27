@@ -57,18 +57,19 @@ export default function ReactMap() {
   const [selected, setSelected] = React.useState(null);
 
   const [zipcode, setZipcode] = useState([89074]);
-const [radius, setRadius] = useState(100);
-const [error, setError] = useState('');
-const [center, setCenter] = useState({ lat: 36.0389897, lng: -114.9948827 });
-//const [circle, setCircle] = useState(null);
-const [storeList, setStoreList] = useState(storesClusterByKmeans);
+  const [radius, setRadius] = useState(100);
+  const [zoom, setZoom] = useState(9);
+  const [error, setError] = useState('');
+  const [center, setCenter] = useState({ lat: 36.0389897, lng: -114.9948827 });
+  //const [circle, setCircle] = useState(null);
+  const [storeList, setStoreList] = useState(storesClusterByKmeans);
 
-// TODO Get zipcodes from api
-const zipList = storesClusterByKmeans.map((option) => {
-  if (option.PostalCode) {
-      return option.PostalCode.split("-")[0];
-  }
-});
+  // TODO Get zipcodes from api
+  const zipList = storesClusterByKmeans.map((option) => {
+    if (option.PostalCode) {
+        return option.PostalCode.split("-")[0];
+    }
+  });
 
 const handleChange = (event, values) => {
     console.log("event :: " + event);
@@ -100,6 +101,54 @@ const onMapLoad = React.useCallback((map) => {
   mapRef.current = map;
 }, []);
 
+const makeAPICall = async (url) => {
+  try {
+    console.log("make :: url :: " + url);
+    fetch(url, {
+      'methods': 'GET',
+      headers: {
+        'Content-Type': 'applications/json'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("data :: " + JSON.stringify(data));
+      setStoreList(data[zipcode]);// TODO Change python res
+      setCenter({ lat: data.center[0], lng: data.center[1]});
+      // TODO fit bounds
+      let zoom = 9;
+      if (radius > 100) {
+        zoom = 7.5
+      } else if (radius > 500) {
+        zoom = 7
+      } else if (radius > 1000) {
+        zoom = 5.5
+      }
+      setZoom(zoom);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  catch (e) {
+    console.log(e)
+  }
+}
+
+useEffect(() => {
+  console.log("effect zipcode :: " + zipcode + " radius :: " + radius);
+  // if (circle) {
+  //   circle.setCenter(center);
+  //   circle.setRadius(radius * 1000);
+  // }
+  if (!zipcode) {
+    console.log("error zipcode :: " + zipcode);
+    //throw new Error("Zipcode is required!");
+  }
+  makeAPICall(`http://127.0.0.1:5000/api/v1/storesclustersbykmeansbylistzips?zipcode=${zipcode}&radius=${radius}`);
+
+}, [zipcode, radius]);
+
 const apiIsLoaded = (map, maps) => {
     mapRef.current = map;
     //mapRef.current.setZoom(expansionZoom);
@@ -117,49 +166,6 @@ const apiIsLoaded = (map, maps) => {
     // }));
   };
 
-const makeAPICall = async (url) => {
-    try {
-      console.log("make :: url :: " + url);
-      fetch(url, {
-        'methods': 'GET',
-        headers: {
-          'Content-Type': 'applications/json'
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log("data :: " + JSON.stringify(data));
-        setStoreList(data[zipcode]);// TODO Change python res
-        setCenter({ lat: data.center[0], lng: data.center[1]})  
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    console.log("effect zipcode :: " + zipcode + " radius :: " + radius);
-    if (circle) {
-      circle.setCenter(center);
-      circle.setRadius(radius * 1000);
-    }
-    if (!zipcode) {
-      console.log("error zipcode :: " + zipcode);
-      //throw new Error("Zipcode is required!");
-    }
-    makeAPICall(`http://127.0.0.1:5000/api/v1/storesclustersbykmeansbylistzips?zipcode=${zipcode}&radius=${radius}`);
-    Geocode.fromAddress(zipcode).then(
-      response => {
-        // setCenter({ lat: 33.614269, lng: -85.834969 });
-        setCenter(response.results[0].geometry.location);
-      }
-    );
-
-  }, [zipcode, radius]);
 
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
@@ -169,6 +175,7 @@ const makeAPICall = async (url) => {
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
  
+  
   return (
   <React.Fragment>
     <Title>All Stores</Title> 
@@ -236,7 +243,7 @@ const makeAPICall = async (url) => {
       <GoogleMap
         id="map"
         mapContainerStyle={mapContainerStyle}
-        zoom={10}
+        zoom={zoom}
         center={center}
         panTo={center}
         //options={options}
@@ -304,26 +311,26 @@ const makeAPICall = async (url) => {
   );
 }
 
-function Locate({ panTo }) {
-  return (
-    <button
-      className="locate"
-      onClick={() => {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            panTo({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-          },
-          () => null
-        );
-      }}
-    >
-      <img src="/compass.svg" alt="compass" />
-    </button>
-  );
-}
+// function Locate({ panTo }) {
+//   return (
+//     <button
+//       className="locate"
+//       onClick={() => {
+//         navigator.geolocation.getCurrentPosition(
+//           (position) => {
+//             panTo({
+//               lat: position.coords.latitude,
+//               lng: position.coords.longitude,
+//             });
+//           },
+//           () => null
+//         );
+//       }}
+//     >
+//       <img src="/compass.svg" alt="compass" />
+//     </button>
+//   );
+// }
 
 // function Search({ panTo }) {
 //   const {

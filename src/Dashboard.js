@@ -1,4 +1,5 @@
-import React from 'react';
+import React , { useEffect, useRef, useState } from 'react';
+
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -23,6 +24,9 @@ import ReactMap from './mapbox-clustering/ReactMap';
 import MarkerMapLocator_radius from './mapbox-clustering/MarkerMapLocator_radius'
 import GoogleApiWrapper from './mapbox-clustering/GoogleMapSMarkerMap'
 import CustomGoogleMap from './components/CustomGoogleMap';
+
+import { storesClusterByKmeans } from './data/StoresClusterByKmeans';
+
 
 function Copyright(props) {
   return (
@@ -91,6 +95,91 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  // For Map
+  const [selected, setSelected] = React.useState(null);
+
+  const [zipcode, setZipcode] = useState([89074]);
+  const [radius, setRadius] = useState(100);
+  const [error, setError] = useState('');
+  const [center, setCenter] = useState({ lat: 36.0389897, lng: -114.9948827 });
+  //const [circle, setCircle] = useState(null);
+  const [storeList, setStoreList] = useState(storesClusterByKmeans);
+
+  // TODO Get zipcodes from api
+  const zipList = storesClusterByKmeans.map((option) => {
+    if (option.PostalCode) {
+        return option.PostalCode.split("-")[0];
+    }
+  });
+
+const handleChange = (event, values) => {
+    console.log("event :: " + event);
+    setZipcode(values);
+};
+
+const handleRadiusChange = (event) => {
+    console.log("event target val :: " + event.target.value);
+    setRadius(event.target.value);
+    // circle.setRadius(radius);
+};
+
+const findByZipcodeRadius = (event) => {
+    console.log("event :; " + event); 
+    console.log("value :; " + event.target.value); 
+
+    console.log(" zip :: " + JSON.stringify(zipcode));
+    console.log(" radius :: " + radius);
+
+    event.preventDefault();
+
+    if (radius && !zipcode) {
+      error = "Zipcode id required!"
+    }
+  };
+
+const mapRef = useRef();
+const onMapLoad = React.useCallback((map) => {
+  mapRef.current = map;
+}, []);
+
+  const makeAPICall = async (url) => {
+    try {
+      console.log("make :: url :: " + url);
+      fetch(url, {
+        'methods': 'GET',
+        headers: {
+          'Content-Type': 'applications/json'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log("data :: " + JSON.stringify(data));
+        setStoreList(data[zipcode]);// TODO Change python res
+        setCenter({ lat: data.center[0], lng: data.center[1]})  
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    console.log("effect zipcode :: " + zipcode + " radius :: " + radius);
+    // if (circle) {
+    //   circle.setCenter(center);
+    //   circle.setRadius(radius * 1000);
+    // }
+    if (!zipcode) {
+      console.log("error zipcode :: " + zipcode);
+      //throw new Error("Zipcode is required!");
+    }
+    makeAPICall(`http://127.0.0.1:5000/api/v1/storesclustersbykmeansbylistzips?zipcode=${zipcode}&radius=${radius}`);
+
+  }, []);
+  
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -197,7 +286,7 @@ function DashboardContent() {
                     height: '40vh',
                   }}
                 >
-                  <Highlights />
+                  <Highlights data={storeList} />
                 </Paper>
               </Grid>
                {/* Map */}
@@ -240,7 +329,11 @@ function DashboardContent() {
                     height: '70vh'
                   }}
                 >
-                  <ReactMap />
+                  <ReactMap 
+                    data={storeList} 
+                    zipcode
+                    radius
+                  />
                   {/* <MarkerMapLocator /> */}
                 </Paper>
               </Grid>

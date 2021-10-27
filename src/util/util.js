@@ -35,6 +35,57 @@ export const geocode = ((address) => {
 }, {});
 
   export const getHighlights = (array) => {
-    
+    return findMinMax(array);
   }
+
+  // Finding all here to reduce iteration
+  function findMinMax(arr) {
+    let minAnnualSales = arr[0].AnnualSales;
+    let maxAnnualSales = arr[0].AnnualSales;
+    let minAnnualSalesIndex;
+    let maxAnnualSalesIndex;
+
+    let minOpEfficiencyIndex;
+    let maxOpEfficiencyIndex;
+    let minOpEfficiency = arr[0].OperatingEfficiency;
+    let maxOpEfficiency = arr[0].OperatingEfficiency;
+    
+    for (let i = 1, len=arr.length; i < len; i++) {
+      let annualSales = arr[i].AnnualSales;
+      let opEfficiency = arr[i].OperatingEfficiency;
+
+      if (annualSales < minAnnualSales)  {
+        minAnnualSales = annualSales;
+        minAnnualSalesIndex = i;
+      };
+
+      if (annualSales > maxAnnualSales) {
+        maxAnnualSales = annualSales;
+        maxAnnualSalesIndex = i;
+      } 
+
+      if (opEfficiency < minOpEfficiency)  {
+        minOpEfficiency = opEfficiency;
+        minOpEfficiencyIndex = i;
+      };
+
+      if (opEfficiency < maxOpEfficiency)  {
+        maxOpEfficiency = opEfficiency;
+        maxOpEfficiencyIndex = i;
+      };
+    }
+  
+    return { 
+      minAnnualSalesStore: arr[minAnnualSalesIndex],
+      maxAnnualSalesStore: arr[maxAnnualSalesIndex],
+      minOpEfficiencyStore: arr[minOpEfficiencyIndex],
+      maxOpEfficiencyStore: arr[maxOpEfficiencyIndex]
+    };
+  }
+
+const maxVal = (array) => {
+  var maximum = Math.max.apply(Math, array.map(o => o.attribute));
+}
+
+
 
