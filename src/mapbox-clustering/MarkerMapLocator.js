@@ -135,7 +135,7 @@ export default function MarkerMapLocator() {
 
     return (
         <React.Fragment>
-            <Title>All Stores</Title> 
+            <Title>Stores Locator</Title> 
             <div style={{ height: "100%", width: "100%"}}>
               {/* <div style={{ height: "20%", width: "100%"}}>
                 <GoogleMapPlaces />

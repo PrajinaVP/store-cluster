@@ -29,7 +29,7 @@ import Grid from '@mui/material/Grid';
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { storesClusterByKmeans } from '../data/StoresClusterByKmeans';
-
+import '../charts/Chart.css';
 import Geocode from "react-geocode";
 
 const libraries = ["places"];
@@ -175,10 +175,32 @@ const apiIsLoaded = (map, maps) => {
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
  
+  const CustomTooltip = (selected) => {
+    if (selected) {
+  
+      return (
+        <div className="tooltip">
+          <p>{`Store Id : ${selected.id}`}</p>
+          <p>{`District Id : ${selected.StoreDistrictID}`}</p>
+          <p>{`Group Id : ${selected.StoreGroupID}`}</p>
+          <p>{`Region Id : ${selected.StoreRegionID}`}</p>
+          
+          <p>{`Annual Sales : ${selected.AnnualSales}`}</p>
+          <p>{`Cost of Goods Sold : ${selected.CostOfGoodsSold}`}</p>
+          <p>{`Operating Expenses : ${selected.OperatingExpenses}`}</p>
+          
+          <p>{`Address : ${selected.FormattedAddress}`}</p>
+          <p>{`Postal Code : ${selected.PostalCode} `}</p>
+        </div>
+      );  
+    }
+  
+    return null;
+  };
   
   return (
   <React.Fragment>
-    <Title>All Stores</Title> 
+    <Title>Stores Locator</Title> 
     <div style={{ height: "100%", width: "100%"}}>
  
       <Grid container spacing={2}>
@@ -298,9 +320,19 @@ const apiIsLoaded = (map, maps) => {
           >
             <div>
               <h2>
-                Store
+              <p>{`Store: ${selected.ID}`}</p>
               </h2>
-              <p>{JSON.stringify(selected, null, 2)}</p>
+                
+                <p>{`District Id : ${selected.StoreDistrictID}`}</p>
+                <p>{`Group Id : ${selected.StoreGroupID}`}</p>
+                <p>{`Region Id : ${selected.StoreRegionID}`}</p>
+                
+                <p>{`Annual Sales : ${selected.AnnualSales}`}</p>
+                <p>{`Cost of Goods Sold : ${selected.CostOfGoodsSold}`}</p>
+                <p>{`Operating Expenses : ${selected.OperatingExpenses}`}</p>
+                {/* <p>{`Address : ${selected.FormattedAddress}`}</p> */}
+                <p>{`Postal Code : ${selected.PostalCode} `}</p>
+              {/* <p>{JSON.stringify(selected, null, 2)}</p> */}
             </div>
           </InfoWindow>
         ) : null}   

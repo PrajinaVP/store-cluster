@@ -83,7 +83,7 @@ export const geocode = ((address) => {
         minOpEfficiencyIndex = i;
       };
 
-      if (opEfficiency < maxOpEfficiency)  {
+      if (opEfficiency > maxOpEfficiency)  {
         maxOpEfficiency = opEfficiency;
         maxOpEfficiencyIndex = i;
       };
@@ -93,7 +93,7 @@ export const geocode = ((address) => {
         minOperatingExpensesIndex = i;
       };
 
-      if (operatingExpenses < maxOperatingExpenses)  {
+      if (operatingExpenses > maxOperatingExpenses)  {
         maxOperatingExpenses = operatingExpenses;
         maxOperatingExpensesIndex = i;
       };
@@ -103,11 +103,10 @@ export const geocode = ((address) => {
         minCostOfGoodsSoldIndex = i;
       };
 
-      if (costOfGoodsSold < maxCostOfGoodsSold)  {
+      if (costOfGoodsSold > maxCostOfGoodsSold)  {
         maxCostOfGoodsSold = costOfGoodsSold;
         maxCostOfGoodsSoldIndex = i;
-      };
-      
+      };   
     }
   
     const minMax = [

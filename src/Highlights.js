@@ -50,10 +50,6 @@ const columns = [
   { id: 'dollar', label: '$'},
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
 
 export default function Highlights(props) {
   // useEffect(() => {
@@ -88,7 +84,7 @@ export default function Highlights(props) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                 // style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
                 </TableCell>
@@ -99,7 +95,7 @@ export default function Highlights(props) {
             {rows
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code} >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

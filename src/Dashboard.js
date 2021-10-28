@@ -306,7 +306,7 @@ const onMapLoad = React.useCallback((map) => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '40vh',
+                    height: '50vh',
                   }}
                 >
                   <SearchBox 
@@ -372,7 +372,7 @@ const onMapLoad = React.useCallback((map) => {
                     flexDirection: 'column',
                     height: '70vh'
                   }}
-                > 
+                >
                   <ReactMap />
                   {/* <MarkerMapLocator /> */}
                 </Paper>
